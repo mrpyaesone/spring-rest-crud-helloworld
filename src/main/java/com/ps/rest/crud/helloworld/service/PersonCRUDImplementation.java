@@ -1,24 +1,21 @@
-package com.ps.rest.crud.helloworld.db;
+package com.ps.rest.crud.helloworld.service;
 
+import com.ps.rest.crud.helloworld.db.CRUD;
 import com.ps.rest.crud.helloworld.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service("personCRUDImpl")
-public class PersonCRUDImplementation implements CRUD<Person> {
+public class PersonCRUDImplementation implements PersonCRUDRepo<Person> {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private CRUD crud;
 
     @Override
     public List<Person> selectAll() {
-        String sql = "SELECT * FROM test";
-        List<Person> personList = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Person.class));
+        List<Person> personList = crud.selectAll(new Person());
         System.out.println("PersonCRUDImplementation:person list size from DB -> " + personList.size());
         return personList;
     }

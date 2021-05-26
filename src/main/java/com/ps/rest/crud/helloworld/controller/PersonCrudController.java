@@ -1,7 +1,8 @@
 package com.ps.rest.crud.helloworld.controller;
 
-import com.ps.rest.crud.helloworld.db.PersonCRUDImplementation;
+import com.ps.rest.crud.helloworld.service.PersonCRUDImplementation;
 import com.ps.rest.crud.helloworld.model.Person;
+import com.ps.rest.crud.helloworld.service.PersonCRUDRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.List;
 @RequestMapping(value = "/api/v1/")
 public class PersonCrudController {
     @Autowired
-    PersonCRUDImplementation personCRUDImplementation;
+    PersonCRUDRepo personCRUDRepo;
 
     @RequestMapping(value = "test", method = RequestMethod.GET)
     public String test() {
@@ -39,7 +40,7 @@ public class PersonCrudController {
 
     @RequestMapping(value = "all", method = RequestMethod.GET)
     public ResponseEntity<?> select() {
-        List<Person> personList = personCRUDImplementation.selectAll();
+        List<Person> personList = personCRUDRepo.selectAll();
         if (personList.isEmpty()) {
             return new ResponseEntity<>("Not available person", HttpStatus.NO_CONTENT);
         }
