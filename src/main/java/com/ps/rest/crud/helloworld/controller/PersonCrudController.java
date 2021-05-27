@@ -6,6 +6,7 @@ import com.ps.rest.crud.helloworld.service.PersonCRUDRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,9 +24,15 @@ public class PersonCrudController {
         return "spring-rest-crud-helloworld Deployment is OK";
     }
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
-    public String insert() {
-        return "spring-rest-crud-helloworld Deployment is OK";
+    @RequestMapping(value = "add/{name}", method = RequestMethod.POST)
+    public ResponseEntity<?> insert(@PathVariable("name") String name) {
+        boolean isSuccessToInsert = personCRUDRepo.insert(name);
+
+        if (isSuccessToInsert){
+            return new  ResponseEntity<>("Successfully inserted.", HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("Fail to insert.", HttpStatus.FAILED_DEPENDENCY);
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)

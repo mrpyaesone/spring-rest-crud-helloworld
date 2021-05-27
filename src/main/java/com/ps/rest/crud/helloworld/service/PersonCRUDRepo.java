@@ -4,7 +4,10 @@ import java.util.List;
 
 public interface PersonCRUDRepo<T> {
     List<T> selectAll();
-    int deleteById();
-    int insert();
-    int updateById();
+
+    boolean deleteById(int id);
+
+    boolean insert(String name);
+
+    boolean updateById(int id);
 }

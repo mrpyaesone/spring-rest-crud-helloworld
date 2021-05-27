@@ -15,23 +15,29 @@ public class PersonCRUDImplementation implements PersonCRUDRepo<Person> {
 
     @Override
     public List<Person> selectAll() {
-        List<Person> personList = crud.selectAll(new Person());
+        List<Person> personList = crud.selectAll(new Person(), "test");
         System.out.println("PersonCRUDImplementation:person list size from DB -> " + personList.size());
         return personList;
     }
 
     @Override
-    public int deleteById() {
-        return 0;
+    public boolean deleteById(int id) {
+        return false;
     }
 
     @Override
-    public int insert() {
-        return 0;
+    public boolean insert(String name) {
+        int result = crud.insert(new Person(name), "test");
+
+        if (result > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     @Override
-    public int updateById() {
-        return 0;
+    public boolean updateById(int id) {
+        return false;
     }
 }
