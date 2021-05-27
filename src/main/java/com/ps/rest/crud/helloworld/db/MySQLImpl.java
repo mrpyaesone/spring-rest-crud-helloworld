@@ -26,8 +26,13 @@ public class MySQLImpl<T> implements CRUD<T> {
     }
 
     @Override
-    public int deleteById() {
-        return 0;
+    public int deleteById(int id, String tableName) {
+        String sql = "DELETE FROM " + tableName + " WHERE id=?";
+        Object[] params = {id};
+
+        int result = jdbcTemplate.update(sql, params);
+
+        return result;
     }
 
     @Override
@@ -43,7 +48,12 @@ public class MySQLImpl<T> implements CRUD<T> {
     }
 
     @Override
-    public int updateById() {
-        return 0;
+    public int updateById(int id, String name, String tableName) {
+        String sql = "UPDATE " + tableName + " SET name=? WHERE id=?";
+        Object[] params = {name, id};
+
+        int result = jdbcTemplate.update(sql, params);
+
+        return result;
     }
 }

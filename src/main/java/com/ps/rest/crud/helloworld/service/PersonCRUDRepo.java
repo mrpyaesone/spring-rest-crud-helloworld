@@ -9,5 +9,5 @@ public interface PersonCRUDRepo<T> {
 
     boolean insert(String name);
 
-    boolean updateById(int id);
+    boolean updateById(int id, String name);
 }

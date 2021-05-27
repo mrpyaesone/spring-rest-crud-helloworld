@@ -1,6 +1,5 @@
 package com.ps.rest.crud.helloworld.controller;
 
-import com.ps.rest.crud.helloworld.service.PersonCRUDImplementation;
 import com.ps.rest.crud.helloworld.model.Person;
 import com.ps.rest.crud.helloworld.service.PersonCRUDRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,26 +27,36 @@ public class PersonCrudController {
     public ResponseEntity<?> insert(@PathVariable("name") String name) {
         boolean isSuccessToInsert = personCRUDRepo.insert(name);
 
-        if (isSuccessToInsert){
-            return new  ResponseEntity<>("Successfully inserted.", HttpStatus.CREATED);
+        if (isSuccessToInsert) {
+            return new ResponseEntity<>("Successfully inserted.", HttpStatus.CREATED);
         }
-
         return new ResponseEntity<>("Fail to insert.", HttpStatus.FAILED_DEPENDENCY);
     }
 
-    @RequestMapping(value = "update", method = RequestMethod.POST)
-    public String update() {
-        return "spring-rest-crud-helloworld Deployment is OK";
+    @RequestMapping(value = "update/{id}/{name}", method = RequestMethod.POST)
+    public ResponseEntity<?> update(@PathVariable("id") int id, @PathVariable("name") String name) {
+        boolean isSuccessToUpdate = personCRUDRepo.updateById(id, name);
+
+        if (isSuccessToUpdate) {
+            return new ResponseEntity<>("Successfully updated.", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Fail to update.", HttpStatus.FAILED_DEPENDENCY);
     }
 
-    @RequestMapping(value = "remove", method = RequestMethod.POST)
-    public String delete() {
-        return "spring-rest-crud-helloworld Deployment is OK";
+    @RequestMapping(value = "remove/{id}", method = RequestMethod.POST)
+    public ResponseEntity<?> delete(@PathVariable("id") int id) {
+        boolean isDeleted = personCRUDRepo.deleteById(id);
+
+        if (isDeleted) {
+            return new ResponseEntity<>("Successfully updated.", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Fail to update.", HttpStatus.FAILED_DEPENDENCY);
     }
 
     @RequestMapping(value = "all", method = RequestMethod.GET)
     public ResponseEntity<?> select() {
         List<Person> personList = personCRUDRepo.selectAll();
+
         if (personList.isEmpty()) {
             return new ResponseEntity<>("Not available person", HttpStatus.NO_CONTENT);
         }
