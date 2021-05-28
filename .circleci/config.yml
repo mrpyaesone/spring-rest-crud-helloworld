@@ -30,8 +30,8 @@ jobs:
           command: |
               cp target/*.jar docker/apps/
               docker login -u $DOCKER_REPO_USERNAME -p $DOCKER_REPO_PASSWORD
-              docker build --no-cache -t mrpyaesone25/spring-rest-crud-helloworld:$(cat tempvers.txt) .
+              docker build --no-cache -t mrpyaesone25/spring-rest-crud-helloworld:$(cat tempvers.txt) docker
               docker push mrpyaesone25/spring-rest-crud-helloworld:$(cat tempvers.txt)
           name: "Build application Docker image"
-    working_directory: ~/spring-rest-helloworld
+    working_directory: ~/spring-rest-crud-helloworld
 version: 2
