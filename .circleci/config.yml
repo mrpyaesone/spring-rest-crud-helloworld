@@ -10,14 +10,13 @@ jobs:
           MYSQL_DATABASE: crud_rest_helloworld
           MYSQL_USER: root
           MYSQL_PASSWORD: ''
-    steps:
+    steps: 
       - checkout
-      - run:
-
-      name: Wait for Database Connection
-        # preinstalled in circleci/* docker image
-        command: dockerize -wait tcp://localhost:3306 -timeout 1m
-      - run:
+      - run: 
+          name: Wait for Database Connection
+          # preinstalled in circleci/* docker image
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run: 
           name: Install MySQL CLI; Import dummy data; run an example query
           command: |
             sudo apt-get install default-mysql-client
