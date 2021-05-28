@@ -2,6 +2,35 @@
 jobs: 
   build: 
     docker: 
+      - image: circleci/mysql:8.0.4
+        auth:
+          username: $DOCKER_REPO_USERNAME
+          password: $DOCKER_REPO_PASSWORD
+        environment:
+          MYSQL_ROOT_PASSWORD:  
+          MYSQL_DATABASE: crud_rest_helloworld
+          MYSQL_USER: root
+          MYSQL_PASSWORD: 
+    steps:
+      - checkout
+      - run:
+      # Our primary container isn't MYSQL so run a sleep command until it's ready.
+          name: Waiting for MySQL to be ready
+          command: |
+            for i in `seq 1 10`;
+            do
+              nc -z 127.0.0.1 3306 && echo Success && exit 0
+              echo -n .
+              sleep 1
+            done
+            echo Failed waiting for MySQL && exit 1
+      - run:
+          name: Install MySQL CLI; Import dummy data; run an example query
+          command: |
+            sudo apt-get install default-mysql-client
+            mysql -h 127.0.0.1 -u root -p   crud_rest_helloworld < sql-data/crud_rest_helloworld.sql
+            mysql -h 127.0.0.1 -u root -p   --execute="SELECT * FROM crud_rest_helloworld.test"
+
       - 
         image: "circleci/openjdk:8-jdk-browsers"
     steps: 
