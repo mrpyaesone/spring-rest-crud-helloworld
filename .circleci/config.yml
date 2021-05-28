@@ -2,8 +2,10 @@
 jobs: 
   build: 
     docker: 
-      - image: "circleci/openjdk:8-jdk-browsers"
-      - image: circleci/mysql:8.0.4
+      - 
+        image: "circleci/openjdk:8-jdk-browsers"
+      - 
+        image: circleci/mysql:8.0.4
         environment:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_ROOT_PASSWORD:  ''
@@ -12,6 +14,7 @@ jobs:
           MYSQL_PASSWORD: ''
     steps: 
       - checkout
+      - setup_remote_docker
       - run: 
           name: Wait for Database Connection
           # preinstalled in circleci/* docker image
@@ -22,9 +25,6 @@ jobs:
             sudo apt-get install default-mysql-client
             mysql -h 127.0.0.1 -u root -p   crud_rest_helloworld < sql-data/crud_rest_helloworld.sql
             mysql -h 127.0.0.1 -u root -p   --execute="SELECT * FROM crud_rest_helloworld.test"
-    steps: 
-      - checkout
-      - setup_remote_docker
       - 
         restore_cache: 
           key: "spring-rest-crud-helloworld-{{ checksum \"pom.xml\" }}"
