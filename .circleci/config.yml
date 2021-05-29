@@ -22,6 +22,7 @@ jobs:
       - run: 
           name: Install MySQL CLI; Import dummy data; run an example query
           command: |
+            sudo apt-get clean
             sudo apt-get install default-mysql-client
             mysql -h 127.0.0.1 -u root -p '' crud_rest_helloworld < sql-data/crud_rest_helloworld.sql
             mysql -h 127.0.0.1 -u root -p '' --execute="SELECT * FROM crud_rest_helloworld.test"
