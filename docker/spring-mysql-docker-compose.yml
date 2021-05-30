@@ -1,0 +1,39 @@
+version: '3.3'
+
+services:
+  mysqlserver:
+    image: mysql
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: crud_rest_helloworld
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: root
+#    networks:
+#      -common-network
+
+  myspringboot:
+    image: mrpyaesone25/spring-rest-crud-helloworld:0.0.1-ae20e89-23
+    ports:
+      - "8084:8080"
+    restart: always
+    depends_on: #define dependencies of this app
+      - mysqlserver
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://test-mysql:3307/crud_rest_helloworld
+      SPRING_DATASOURCE_USERNAME: test
+      SPRING_DATASOURCE_PASSWORD: test
+#    networks:
+#      -common-network
+#
+#  #Docker Networks
+#  networks:
+#    common-network:
+#      driver: bridge
+#
+#  #Volumes
+#  volumes:
+#    dbdata:
+#      driver: local
