@@ -4,28 +4,29 @@ jobs:
     docker: 
       - 
         image: "circleci/openjdk:8-jdk-browsers"
-      - 
-        image: circleci/mysql:8.0.4
-        environment:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_ROOT_PASSWORD:  ''
-          MYSQL_DATABASE: crud_rest_helloworld
-          MYSQL_USER: root
-          MYSQL_PASSWORD: ''
-    steps: 
-      - checkout
-      - setup_remote_docker
-      - run: 
-          name: Wait for Database Connection
-          # preinstalled in circleci/* docker image
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
-      - run: 
-          name: Install MySQL CLI; Import dummy data; run an example query
-          command: |
-            sudo apt-get clean
-            sudo apt-get install default-mysql-client
-            mysql -h 127.0.0.1 -u root -p '' crud_rest_helloworld < sql-data/crud_rest_helloworld.sql
-            mysql -h 127.0.0.1 -u root -p '' --execute="SELECT * FROM crud_rest_helloworld.test"
+#      -
+#        image: circleci/mysql:8.0.4
+#        environment:
+#          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+#          MYSQL_ROOT_PASSWORD:  ''
+#          MYSQL_DATABASE: crud_rest_helloworld
+#          MYSQL_USER: root
+#          MYSQL_PASSWORD: ''
+#    steps:
+#      - checkout
+#      - setup_remote_docker
+#      - run:
+#          name: Wait for Database Connection
+#          # preinstalled in circleci/* docker image
+#          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+#      - run:
+#          name: Install MySQL CLI; Import dummy data; run an example query
+#          command: |
+#            sudo apt-get clean
+#            sudo apt-get update
+#            sudo apt-get install default-mysql-client
+#            mysql -h 127.0.0.1 -u root -p '' crud_rest_helloworld < sql-data/crud_rest_helloworld.sql
+#            mysql -h 127.0.0.1 -u root -p '' --execute="SELECT * FROM crud_rest_helloworld.test"
       - 
         restore_cache: 
           key: "spring-rest-crud-helloworld-{{ checksum \"pom.xml\" }}"
